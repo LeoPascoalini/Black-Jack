@@ -8,9 +8,12 @@ class Cartas:
         self.figura = figura
         self.valor = valor
 
+    numeroDeBaralhos = 1
     baralho = []
+    maoDoDealer = []
     mao = []
     resultMao = 0
+
 
     naipes = ["♦", "♠", "♥", "♣"]
     figuras = ["A ", "2 ", "3 ", "4 ", "5 ", "6 ",
@@ -33,6 +36,7 @@ class Cartas:
             cls.mao.append(cls.baralho[x])
             cls.baralho.pop(x)
 
+
     @classmethod
     def mostrar(cls):
         for i in range(len(cls.mao)):
@@ -45,20 +49,25 @@ class Cartas:
 
     @classmethod
     def somar(cls):
+        Cartas.resultMao = 0
         for i in range(len(cls.mao)):
             Cartas.resultMao = cls.mao[i].valor + Cartas.resultMao
         print(f"A soma de suas cartas são: {Cartas.resultMao}")
-        print("Desce mais uma ou para?")
+        print("Desce mais uma ou Para?")
 
     @classmethod
-    def descer(cls, resp):
-        if resp == "Desce":
-            Cartas.distribuir(1)
-            Cartas.mostrar()
-            Cartas.resultMao = Cartas.resultMao + Cartas.mao[-1].valor
-            print(f"A soma de suas cartas são: {Cartas.resultMao}")
-            print("Desce mais uma ou para?")
-            return True
-        else:
-            print(f"Você parou com: {Cartas.resultMao}")
-            return False
+    def decidir(cls, resp):
+        match resp:
+            case "Desce":
+                Cartas.distribuir(1)
+                Cartas.mostrar()
+                Cartas.somar()
+                return True
+            case "Para":
+                print(f"Você parou com: {Cartas.resultMao}")
+                print("Aguardando o resultado do dealer...")
+                return False
+            case "Separa":
+                pass
+            case _:
+                print("Comando Incorreto")

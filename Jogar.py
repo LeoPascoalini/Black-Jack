@@ -1,26 +1,43 @@
-from pdb import Restart
 from Cartas import Cartas
 
 
-def Jogar(x):
-    if x > 0 and x < 3:
-        print("Embaralhando...")
-        print("Aqui estão suas cartas:")
+def Jogar(quantBar=True, reiniciar=False):
+    if quantBar == True:
+        x = int(input('Escolha quantos baralhos: '))
+    else:
+        x = Cartas.numeroDeBaralhos
 
-        Cartas.addBaralho(x)
+    if x > 0 and x < 3:
+        if reiniciar == False:
+            print("Embaralhando...")
+            print("Aqui estão suas cartas:")
+            Cartas.addBaralho(x)
+
+        if reiniciar == True:
+            print("Rembaralhando...")
+            print("novas cartas:")
+
         Cartas.distribuir(2)
         Cartas.mostrar()
         Cartas.somar()
 
         resp = input()
-        retorno = Cartas.descer(resp)
-
+        retorno = Cartas.decidir(resp)
         while retorno:
-            Cartas.descer()
-            Cartas.somar()
-            resp = input()
-            retorno = Cartas.descer(resp)
+            if Cartas.resultMao > 21:
+                print("Sua soma estourou! O Dealer venceu!")
+                Cartas.resultMao = 0
+                Cartas.mao = []
+                Jogar(quantBar=False, reiniciar=True)
+            if Cartas.resultMao == 21:
+                print("BLACK JACK!")
+                Cartas.resultMao = 0
+                Cartas.mao = []
+                Jogar(quantBar=False, reiniciar=True)
+            else:
+                resp = input()
+                retorno = Cartas.decidir(resp)
 
     else:
         print("Valor incorreto, tente um algarismo entre 1 e 2")
-        Restart
+        Jogar(quantBar=True, reiniciar=False)
