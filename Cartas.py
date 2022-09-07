@@ -8,6 +8,7 @@ class Cartas:
         self.figura = figura
         self.valor = valor
 
+    maxCartasMostradas = 2
     baralho = []
     mao = []
     resultMao = 0
@@ -35,13 +36,29 @@ class Cartas:
 
     @classmethod
     def mostrar(cls):
-        for i in range(len(cls.mao)):
-            print(" _______ ")
-            print(f"|{cls.mao[i].naipe}      |")
-            print("|       |")
-            print(f"|   {cls.mao[i].figura}  |")
-            print("|       |")
-            print(f"|______{cls.mao[i].naipe}|")
+        linhas = len(cls.mao)//cls.maxCartasMostradas
+        linhas += 0 if len(cls.mao) % cls.maxCartasMostradas == 0 else 1
+        for j in range(linhas):
+            final = len(cls.mao) if (
+                j+1) * cls.maxCartasMostradas > len(cls.mao) else (j+1)*cls.maxCartasMostradas
+            inicio = j*cls.maxCartasMostradas
+            print(" _______      "*(final-inicio))
+
+            for i in range(inicio, final):
+                print(f"|{cls.mao[i].naipe}      |", end="")
+                print("     ", end="")
+            print("\n"+"|       |     "*(final-inicio))
+
+            for i in range(inicio, final):
+                print(f"|   {cls.mao[i].figura}  |", end="")
+                print("     ", end="")
+            print("\n"+"|       |     "*(final-inicio))
+
+            for i in range(inicio, final):
+                print(f"|______{cls.mao[i].naipe}|", end="")
+                print("     ", end="")
+            print("")
+        print("")
 
     @classmethod
     def somar(cls):
