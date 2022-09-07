@@ -16,8 +16,6 @@ def Jogar(x):
         retorno = Cartas.descer(resp)
 
         while retorno:
-            Cartas.descer()
-            Cartas.somar()
             resp = input()
             retorno = Cartas.descer(resp)
 
