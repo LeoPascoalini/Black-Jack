@@ -9,11 +9,11 @@ class Cartas:
         self.valor = valor
 
     numeroDeBaralhos = 1
+    maxCartasMostradas = 10
     baralho = []
     maoDoDealer = []
     mao = []
     resultMao = 0
-
 
     naipes = ["♦", "♠", "♥", "♣"]
     figuras = ["A ", "2 ", "3 ", "4 ", "5 ", "6 ",
@@ -36,16 +36,39 @@ class Cartas:
             cls.mao.append(cls.baralho[x])
             cls.baralho.pop(x)
 
-
     @classmethod
-    def mostrar(cls):
-        for i in range(len(cls.mao)):
-            print(" _______ ")
-            print(f"|{cls.mao[i].naipe}      |")
-            print("|       |")
-            print(f"|   {cls.mao[i].figura}  |")
-            print("|       |")
-            print(f"|______{cls.mao[i].naipe}|")
+    def mostrar(cls, dealer=True):
+        mao = cls.maoDoDealer if dealer else cls.mao
+        if dealer:
+            print("______________"*cls.maxCartasMostradas +
+                  "\n\n" + "              "*(cls.maxCartasMostradas//2-1) + "Mão do dealer")
+        linhas = len(mao)//cls.maxCartasMostradas
+        linhas += 0 if len(mao) % cls.maxCartasMostradas == 0 else 1
+        for j in range(linhas):
+            final = len(mao) if (
+                j+1) * cls.maxCartasMostradas > len(mao) else (j+1)*cls.maxCartasMostradas
+            inicio = j*cls.maxCartasMostradas
+            print(" _______      "*(final-inicio))
+
+            for i in range(inicio, final):
+                print(f"|{mao[i].naipe}      |", end="")
+                print("     ", end="")
+            print("\n"+"|       |     "*(final-inicio))
+
+            for i in range(inicio, final):
+                print(f"|   {mao[i].figura}  |", end="")
+                print("     ", end="")
+            print("\n"+"|       |     "*(final-inicio))
+
+            for i in range(inicio, final):
+                print(f"|______{mao[i].naipe}|", end="")
+                print("     ", end="")
+            print("")
+        print("")
+        if not dealer:
+            print("Carta do dealer:")
+            print(
+                f" _______ \n|{cls.maoDoDealer[0].naipe}      |\n|       |\n|   {cls.maoDoDealer[0].figura}  |\n|       |\n|______{cls.maoDoDealer[0].naipe}|\n")
 
     @classmethod
     def somar(cls):
