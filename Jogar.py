@@ -17,6 +17,7 @@ def Jogar(quantBar=True, reiniciar=False):
             print("Rembaralhando...")
             print("novas cartas:")
 
+        # TODO: adicionar as duas cartas iniciais do dealer
         Cartas.distribuir(2)
         Cartas.mostrar()
         Cartas.somar()
@@ -35,6 +36,9 @@ def Jogar(quantBar=True, reiniciar=False):
                 Cartas.mao = []
                 Jogar(quantBar=False, reiniciar=True)
             else:
+                # TODO: fazer o dealer jogar
+                # TODO: calcular mao do dealer
+                # TODO: comparar quem venceu (em caso de empate ngm ganha)
                 resp = input()
                 retorno = Cartas.decidir(resp)
 
