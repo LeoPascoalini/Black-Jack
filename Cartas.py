@@ -45,39 +45,33 @@ class Cartas:
         if dealerTurn:
             print("______________"*cls.maxCartasMostradas +
                   "\n\n" + "              "*(cls.maxCartasMostradas//2-1) + "Mão do dealer")
-
         linhas = len(mao)//cls.maxCartasMostradas
         linhas += 0 if len(mao) % cls.maxCartasMostradas == 0 else 1
         for j in range(linhas):
             final = len(mao) if (
                 j+1) * cls.maxCartasMostradas > len(mao) else (j+1)*cls.maxCartasMostradas
-
             inicio = j*cls.maxCartasMostradas
-
             print(" _______      "*(final-inicio))
 
             for i in range(inicio, final):
                 print(f"|{mao[i].naipe}      |", end="")
                 print("     ", end="")
-
             print("\n"+"|       |     "*(final-inicio))
 
             for i in range(inicio, final):
                 print(f"|   {mao[i].figura}  |", end="")
                 print("     ", end="")
-
             print("\n"+"|       |     "*(final-inicio))
 
             for i in range(inicio, final):
                 print(f"|______{mao[i].naipe}|", end="")
                 print("     ", end="")
-
             print("")
         print("")
         if not dealerTurn:
             print("Carta do dealer:")
             print(
-                f" _______ \n|{cls.maoDoDealer[0].naipe}      |\n|       |\n|   {cls.maoDoDealer[0].figura}  |\n|       |\n|______{cls.maoDoDealer[0].naipeD}|\n")
+                f" _______ \n|{cls.mao[0].naipe}      |\n|       |\n|   {cls.mao[0].figura}  |\n|       |\n|______{cls.mao[0].naipe}|\n")
 
     @classmethod
     def somar(cls):
@@ -85,11 +79,14 @@ class Cartas:
         Cartas.resultMao = 0
         for i in range(len(cls.mao)):
             Cartas.resultMao = cls.mao[i].valor + Cartas.resultMao
+        if Cartas.resultMao <= 11 and len(list(filter(lambda x: x.figura == "A ", cls.mao))) == 1:
+            Cartas.resultMao += 10
         print(f"A soma de suas cartas são: {Cartas.resultMao}")
-        print("Desce mais uma ou Para?")
+        
 
     @classmethod
-    def decidir(cls, resp):
+    def decidir(cls):
+        resp = input("Desce mais uma ou Para? \n")
         match resp:
             case "Desce":
                 Cartas.distribuir(1)

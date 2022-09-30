@@ -22,8 +22,7 @@ def Jogar(quantBar=True, reiniciar=False):
         Cartas.mostrar()
         Cartas.somar()
 
-        resp = input()
-        retorno = Cartas.decidir(resp)
+        retorno = True
         while retorno:
             if Cartas.resultMao > 21:
                 print("Sua soma estourou! O Dealer venceu!")
@@ -39,8 +38,7 @@ def Jogar(quantBar=True, reiniciar=False):
                 # TODO: fazer o dealer jogar
                 # TODO: calcular mao do dealer
                 # TODO: comparar quem venceu (em caso de empate ngm ganha)
-                resp = input()
-                retorno = Cartas.decidir(resp)
+                retorno = Cartas.decidir()
 
     else:
         print("Valor incorreto, tente um algarismo entre 1 e 2")
