@@ -17,8 +17,8 @@ def Jogar(quantBar=True, reiniciar=False):
             print("Rembaralhando...")
             print("novas cartas:")
 
-        # TODO: adicionar as duas cartas iniciais do dealer
         Cartas.distribuir(2)
+        Cartas.distribuir(2, dealer=True)
         Cartas.mostrar()
         Cartas.somar()
 
@@ -26,18 +26,33 @@ def Jogar(quantBar=True, reiniciar=False):
         while retorno:
             if Cartas.resultMao > 21:
                 print("Sua soma estourou! O Dealer venceu!")
-                Cartas.resultMao = 0
-                Cartas.mao = []
+                Cartas.resetJogo()
                 Jogar(quantBar=False, reiniciar=True)
             if Cartas.resultMao == 21:
                 print("BLACK JACK!")
-                Cartas.resultMao = 0
-                Cartas.mao = []
+                Cartas.resetJogo()
                 Jogar(quantBar=False, reiniciar=True)
             else:
-                # TODO: fazer o dealer jogar
-                # TODO: calcular mao do dealer
-                # TODO: comparar quem venceu (em caso de empate ngm ganha)
+                Cartas.somar(dealer=True)
+                Cartas.mostrar(dealer=True)
+                while Cartas.resultDealer < 17:
+                    Cartas.distribuir(1, dealer=True)
+                    Cartas.mostrar(dealer=True)
+                    Cartas.somar(dealer=True)
+                if Cartas.resultDealer > 21:
+                    print("O Dealer estourou! Voce venceu!")
+                elif Cartas.resultDealer == 21:
+                    print("O Dealer conseguiu um BlackJack! O Dealer venceu!")
+                else:
+                    if Cartas.resultDealer == Cartas.resultMao:
+                        print("O jogo empatou!")
+                    elif Cartas.resultDealer > Cartas.result:
+                        print("O Dealer venceu, com um total de:" +
+                              Cartas.resultDealer)
+                    else:
+                        print("Voce venceu com um total de:" + Cartas.resultMao)
+                Cartas.resetJogo()
+                # TODO: Opcao de jogar denovo
                 retorno = Cartas.decidir()
 
     else:

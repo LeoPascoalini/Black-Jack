@@ -14,6 +14,7 @@ class Cartas:
     maoDoDealer = []
     mao = []
     resultMao = 0
+    resultDealer = 0
 
     naipes = ["♦", "♠", "♥", "♣"]
     figuras = ["A ", "2 ", "3 ", "4 ", "5 ", "6 ",
@@ -30,11 +31,11 @@ class Cartas:
                         Cartas(naipe, figura, cls.valores[figura]))
 
     @classmethod
-    def distribuir(cls, numero):
-        # TODO: adicionar parametro do dealer para ser possivel distribuir cartas para ele
+    def distribuir(cls, numero, dealer=False):
+        mao = cls.maoDoDealer if dealer else cls.mao
         for i in range(numero):
             x = math.ceil(random.random() * len(cls.baralho)) - 1
-            cls.mao.append(cls.baralho[x])
+            mao.append(cls.baralho[x])
             cls.baralho.pop(x)
 
     @classmethod
@@ -71,30 +72,35 @@ class Cartas:
         if not dealerTurn:
             print("Carta do dealer:")
             print(
-                f" _______ \n|{cls.mao[0].naipe}      |\n|       |\n|   {cls.mao[0].figura}  |\n|       |\n|______{cls.mao[0].naipe}|\n")
+                f" _______ \n|{cls.maoDoDealer[0].naipe}      |\n|       |\n|   {cls.maoDoDealer[0].figura}  |\n|       |\n|______{cls.maoDoDealer[0].naipe}|\n")
 
     @classmethod
-    def somar(cls):
+    def somar(cls, dealer=False):
+        mao = cls.maoDoDealer if dealer else cls.mao
         # TODO: calculo do As
-        Cartas.resultMao = 0
-        for i in range(len(cls.mao)):
-            Cartas.resultMao = cls.mao[i].valor + Cartas.resultMao
-        if Cartas.resultMao <= 11 and len(list(filter(lambda x: x.figura == "A ", cls.mao))) == 1:
-            Cartas.resultMao += 10
-        print(f"A soma de suas cartas são: {Cartas.resultMao}")
-        
+        result = 0
+        for i in range(len(mao)):
+            result = mao[i].valor + result
+        if result <= 11 and len(list(filter(lambda x: x.figura == "A ", mao))) == 1:
+            result += 10
+        if dealer:
+            cls.resultDealer = result
+        else:
+            cls.resultMao = result
+            print(f"A soma de suas cartas são: {result}")
+        return result
 
     @classmethod
     def decidir(cls):
         resp = input("Desce mais uma ou Para? \n")
         match resp:
             case "Desce":
-                Cartas.distribuir(1)
-                Cartas.mostrar()
-                Cartas.somar()
+                cls.distribuir(1)
+                cls.mostrar()
+                cls.somar()
                 return True
             case "Para":
-                print(f"Você parou com: {Cartas.resultMao}")
+                print(f"Você parou com: {cls.resultMao}")
                 print("Aguardando o resultado do dealer...")
                 return False
             case "Separa":
@@ -102,3 +108,10 @@ class Cartas:
                 # TODO: Implementar o split
             case _:
                 print("Comando Incorreto")
+
+    @classmethod
+    def resetJogo(cls):
+        cls.resultMao = 0
+        cls.resultDealer = 0
+        cls.mao = []
+        cls.maoDoDealer = []
