@@ -76,7 +76,6 @@ class Cartas:
 
     @classmethod
     def somar(cls, dealer=False):
-        result = Cartas.resultDealer if dealer else Cartas.resultMao
         mao = cls.maoDoDealer if dealer else cls.mao
         # TODO: calculo do As
         result = 0
@@ -85,9 +84,9 @@ class Cartas:
         if result <= 11 and len(list(filter(lambda x: x.figura == "A ", mao))) == 1:
             result += 10
         if dealer:
-            Cartas.resultDealer = result
+            cls.resultDealer = result
         else:
-            Cartas.resultMao = result
+            cls.resultMao = result
             print(f"A soma de suas cartas são: {result}")
         return result
 
@@ -96,12 +95,12 @@ class Cartas:
         resp = input("Desce mais uma ou Para? \n")
         match resp:
             case "Desce":
-                Cartas.distribuir(1)
-                Cartas.mostrar()
-                Cartas.somar()
+                cls.distribuir(1)
+                cls.mostrar()
+                cls.somar()
                 return True
             case "Para":
-                print(f"Você parou com: {Cartas.resultMao}")
+                print(f"Você parou com: {cls.resultMao}")
                 print("Aguardando o resultado do dealer...")
                 return False
             case "Separa":

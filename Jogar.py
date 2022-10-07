@@ -33,9 +33,12 @@ def Jogar(quantBar=True, reiniciar=False):
                 Cartas.resetJogo()
                 Jogar(quantBar=False, reiniciar=True)
             else:
-                Cartas.somar(True)
+                Cartas.somar(dealer=True)
+                Cartas.mostrar(dealer=True)
                 while Cartas.resultDealer < 17:
                     Cartas.distribuir(1, dealer=True)
+                    Cartas.mostrar(dealer=True)
+                    Cartas.somar(dealer=True)
                 if Cartas.resultDealer > 21:
                     print("O Dealer estourou! Voce venceu!")
                 elif Cartas.resultDealer == 21:
